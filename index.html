@@ -5,7 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Absence</title>
 <link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <meta name="theme-color" content="#0b5f6b">
+<meta name="application-name" content="Absence">
+<meta name="apple-mobile-web-app-title" content="Absence">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -108,6 +114,11 @@ details.cls .tabs { margin: 0 0 10px; }
 .tl-h { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; font-size: 17px; }
 .tl-h b { font-weight: 800; }
 [hidden] { display: none !important; }
+.g2 .field input, .g2 .field select { height: 42px; }
+.acts.full { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 12px; }
+.acts.full .btn { min-height: 50px; font-size: 16px; }
+.acts.full .msg { grid-column: 1 / -1; }
+.acts.full .msg:empty { display: none; }
 
 /* ---------- printed sheets ---------- */
 .page { width: 210mm; height: 297mm; background: #fff; color: #111; font-family: Cairo, Tahoma, sans-serif; direction: rtl; overflow: hidden; position: relative; line-height: 1.35; }
@@ -225,22 +236,18 @@ table.at td.sg { font-size: 14px; font-weight: 800; }
       </div>
       <div class="g2" style="margin-top:12px">
         <label class="field">الأسبوع (اختر أي يوم منه)<input type="date" id="aDate"></label>
-        <div class="field">النصف
-          <div class="seg" role="group" aria-label="النصف">
-            <button type="button" data-half="1" aria-pressed="true">الأول<small>الاثنين - الأربعاء</small></button>
-            <button type="button" data-half="2" aria-pressed="false">الثاني<small>الخميس - السبت</small></button>
-            <button type="button" data-half="3" aria-pressed="false">النصفان<small>الأسبوع كاملاً</small></button>
-          </div>
-        </div>
-      </div>
-      <div class="g2" style="margin-top:12px">
         <label class="field">عدد الحصص في اليوم<select id="aPer">
           <option value="3">3 + 3 (صباحاً + مساءً)</option>
           <option value="4">4 + 4 (صباحاً + مساءً)</option>
           <option value="5">5 + 5 (صباحاً + مساءً)</option>
         </select></label>
       </div>
-      <div class="acts">
+      <div class="seg" role="group" aria-label="النصف" style="margin-top:12px">
+        <button type="button" data-half="1" aria-pressed="true">الأول<small>الاثنين - الأربعاء</small></button>
+        <button type="button" data-half="2" aria-pressed="false">الثاني<small>الخميس - السبت</small></button>
+        <button type="button" data-half="3" aria-pressed="false">النصفان<small>الأسبوع كاملاً</small></button>
+      </div>
+      <div class="acts full">
         <button class="btn" id="aPrint" type="button">طباعة</button>
         <button class="btn" id="aPdf" type="button">تحميل PDF</button>
         <span class="msg" id="aMsg" role="status"></span>
@@ -702,12 +709,23 @@ table.at td.sg { font-size: 14px; font-weight: 800; }
   ["box2", "box3"].forEach(function (id) { $(id).addEventListener("toggle", function () { if (this.open) preview(); }); });
 
   /* ---------- print & pdf ---------- */
+  /* wait for Cairo (all weights used on the sheets) before print/pdf — same idea as EduGesti */
+  function fontsOK() {
+    try {
+      if (!document.fonts || !document.fonts.load) return Promise.resolve();
+      return Promise.race([
+        Promise.all(["400 12px Cairo", "600 12px Cairo", "700 12px Cairo", "800 12px Cairo"].map(function (f) { return document.fonts.load(f, "أبج 123"); })).then(function () { return document.fonts.ready; }),
+        new Promise(function (r) { setTimeout(r, 3000); })
+      ]).catch(function () {});
+    } catch (e) { return Promise.resolve(); }
+  }
   function doPrint(pages, msgEl) {
     if (!pages.length) { msgEl.className = "msg warn"; msgEl.textContent = "اختر قسماً أولاً (استورد اللوائح)."; return; }
     msgEl.textContent = "";
     if (framed && window.claude) { return doPdf(pages, msgEl === $("aMsg") ? "absence-sheets" : "entry-slips", msgEl, true); }
     $("printArea").innerHTML = pages.join("");
-    setTimeout(function () { window.print(); }, 60);
+    $("busy").textContent = "جارٍ تحضير الطباعة…"; $("busy").hidden = false;
+    fontsOK().then(function () { $("busy").hidden = true; setTimeout(function () { window.print(); }, 80); });
   }
   async function doPdf(pages, name, msgEl, forPrint) {
     if (!pages.length) { msgEl.className = "msg warn"; msgEl.textContent = "اختر قسماً أولاً (استورد اللوائح)."; return; }
@@ -715,7 +733,7 @@ table.at td.sg { font-size: 14px; font-weight: 800; }
     $("busy").textContent = "جارٍ تحضير الملف…"; $("busy").hidden = false;
     await new Promise(function (r) { setTimeout(r, 30); });
     try {
-      if (document.fonts && document.fonts.ready) await document.fonts.ready;
+      await fontsOK();
       var pdf = new window.jspdf.jsPDF({ unit: "mm", format: "a4", orientation: "portrait" });
       var stage = $("stage");
       for (var i = 0; i < pages.length; i++) {
@@ -786,6 +804,8 @@ table.at td.sg { font-size: 14px; font-weight: 800; }
   window.__abs = { parseSheet: parseSheet, tarlCode: tarlCode, st: st, absPages: absPages, entryPages: entryPages, importRows: function (code, names) { st.classes[code] = { names: names }; renderClasses(); fillSelectors(); preview(); }, importTarlRows: function (code, names) { st.tarl[code] = { names: names }; renderTarl(); fillSelectors(); preview(); } };
 })();
 </script>
-<script>if("serviceWorker" in navigator){window.addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){});});}</script>
+<script>
+if ("serviceWorker" in navigator && location.protocol === "https:") { window.addEventListener("load", function () { navigator.serviceWorker.register("sw.js").catch(function () {}); }); }
+</script>
 </body>
 </html>
