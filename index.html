@@ -50,8 +50,6 @@ button { cursor: pointer; }
 .btn.ghost { background: var(--soft-btn); color: var(--soft-btn-fg); border: 1px solid var(--soft-btn-line); box-shadow: none; font-weight: 600; padding: 7px 14px; font-size: 14px; }
 .btn.ghost[aria-pressed="true"] { background: linear-gradient(135deg, var(--hi), var(--hi2)); color: #fff; border-color: var(--gold); }
 .btn.ghost[aria-pressed="true"]::before { content: "\2713\00a0"; }
-.drop { border: 1.5px dashed var(--field-line); border-radius: 14px; padding: 14px 16px; display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
-.drop.over { border-color: var(--gold); background: #c9a24a1f; }
 .muted { color: var(--soft); }
 .row { display: flex; gap: 10px; flex-wrap: wrap; align-items: flex-end; }
 .field { display: flex; flex-direction: column; gap: 4px; font-size: 14px; color: var(--soft); min-width: 0; }
@@ -94,15 +92,8 @@ details.set[open] summary .step::after { content: "▴"; }
 .seg button small { display: block; font-weight: 400; font-size: 11px; color: var(--soft); }
 .seg button[aria-pressed="true"] { background: linear-gradient(135deg, var(--hi), var(--hi2)); color: #fff; }
 .seg button[aria-pressed="true"] small { color: var(--cream); }
-.badge { margin-inline-start: auto; font-size: 13px; font-weight: 700; border-radius: 99px; padding: 3px 14px; color: #fff; }
-.badge.ok { background: #1f9d63; } .badge.no { background: var(--err); }
 details.set summary .step::after { margin-inline-start: 10px !important; }
-details.set summary .step:not(:has(.badge))::after { margin-inline-start: auto !important; }
-.impcard { margin-top: 12px; background: #dcf1e7; border: 1px solid #a9d8c0; border-radius: 14px; padding: 10px 16px; color: #0c6b4b; }
-.impcard .ic1 { display: flex; gap: 12px; flex-wrap: wrap; align-items: baseline; font-size: 16px; }
-.impcard .ic1 b { font-weight: 800; }
-.impcard .ic2 { display: flex; gap: 14px; align-items: center; margin-top: 6px; font-size: 14.5px; flex-wrap: wrap; }
-.impcard .icf { background: #f2faf6; border-radius: 10px; padding: 2px 12px; }
+details.set summary .step::after { margin-inline-start: auto !important; }
 details.cls { margin-top: 12px; background: #e6efec; border-radius: 14px; padding: 4px 14px; }
 details.cls summary { cursor: pointer; list-style: none; display: flex; align-items: center; padding: 8px 0; }
 details.cls summary::-webkit-details-marker { display: none; }
@@ -110,10 +101,44 @@ details.cls .ct { font-weight: 800; font-size: 17px; }
 details.cls .ch { margin-inline-start: auto; color: var(--soft); font-size: 14px; }
 details.cls[open] .ch::before { content: ""; }
 details.cls .tabs { margin: 0 0 10px; }
-.tarl { margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--line); }
-.tl-h { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; font-size: 17px; }
-.tl-h b { font-weight: 800; }
 [hidden] { display: none !important; }
+/* v4: بطاقتا الاستيراد */
+.icd { border: 1px solid var(--line); border-radius: 14px; padding: 12px 12px; background: #fbfdfc; margin-top: 4px; }
+.icd + .icd { margin-top: 12px; }
+.icd.over { border-color: var(--gold); background: #c9a24a1f; }
+.icr { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.ict { font-weight: 800; font-size: 16px; white-space: nowrap; }
+.pill { font-size: 12.5px; font-weight: 700; border-radius: 99px; padding: 2px 12px; white-space: nowrap; }
+.pill.ok { background: #d9f3e8; color: var(--ok); }
+.pill.no { background: #eef2f0; color: var(--soft); border: 1px dashed var(--field-line); }
+.ich { font-size: 13px; color: var(--soft); margin: 6px 0 10px; }
+.icm { display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap; font-size: 13px; color: var(--soft); margin: 6px 0 10px; }
+.btn.wide { display: block; width: 100%; min-height: 44px; }
+.btn.wide.again { background: var(--soft-btn); color: var(--soft-btn-fg); border: 1px solid var(--soft-btn-line); box-shadow: none; }
+.icd .msg:empty { display: none; }
+.icd .msg { margin-top: 8px; }
+.icd details.cls { margin-top: 10px; padding: 4px 10px; }
+.icd details.cls .ct { font-size: 15px; white-space: nowrap; }
+.icd details.cls .ch { font-size: 12.5px; white-space: nowrap; padding-inline-start: 8px; }
+/* v4: شبكة موحدة للأقسام والمجموعات المستوردة */
+details.cls .tabs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
+details.cls .tabs .lvl { grid-column: 1 / -1; border-bottom: 1px solid var(--line); padding-bottom: 2px; margin: 6px 0 2px; }
+details.cls .tabs .ctab { display: flex; min-width: 0; }
+details.cls .tabs .ct-main { flex: 1; min-width: 0; padding: 4px 7px; }
+details.cls .tabs .ct-main .cc { display: block; text-align: right; white-space: nowrap; overflow: hidden; font-size: 13px; letter-spacing: -.1px; }
+details.cls .tabs .ct-x { flex: none; padding: 0 7px; font-size: 15px; }
+details.cls .tabs .ct-x.pend { padding: 0 6px; font-size: 12px; }
+/* v4: ورقة الدخول بخط عادي */
+.slip { font-weight: 400 !important; }
+/* v4: العنوان الفرعي عريض وممدود */
+.bs { font-weight: 700; white-space: nowrap; }
+#bsx { letter-spacing: 0; }
+/* v4: التوقيع مثل EduGesti وسطر الحقوق */
+.dev b { font-family: var(--font); direction: rtl; font-size: 15px; font-weight: 700; letter-spacing: 0; }
+.dev .dvf { font-size: 12px; opacity: .85; }
+.cpy { margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--line); text-align: center; direction: ltr; font-family: "Segoe UI", Arial, sans-serif; color: var(--soft); font-size: 12.5px; line-height: 1.7; }
+.cpy b { display: block; font-size: 16px; color: var(--ink); letter-spacing: .3px; }
+
 .g2 .field input, .g2 .field select { height: 42px; }
 .acts.full { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 12px; }
 .acts.full .btn { min-height: 50px; font-size: 16px; }
@@ -177,7 +202,7 @@ table.at td.sg { font-size: 14px; font-weight: 800; }
     <div class="logo" aria-hidden="true"><svg viewBox="0 0 32 32"><rect x="5" y="7" width="22" height="20" rx="3"/><path d="M5 13h22M11 4v5M21 4v5"/><path d="M12 17l8 7M20 17l-8 7"/></svg></div>
     <div>
       <div class="bt">Absence</div>
-      <div class="bs">ورقة الغياب · ورقة الدخول</div>
+      <div class="bs"><span id="bsx">ورقة الغياب</span></div>
     </div>
   </div>
 </header>
@@ -185,34 +210,26 @@ table.at td.sg { font-size: 14px; font-weight: 800; }
 <main class="in">
   <section>
     <details class="set" id="box1">
-      <summary><div class="step"><b>1</b><h2>لوائح التلاميذ</h2><span class="badge" id="impBadge"></span></div></summary>
-      <div class="drop" id="drop">
+      <summary><div class="step"><b>1</b><h2>استيراد اللوائح</h2></div></summary>
+      <div class="icd" id="drop">
+        <div class="icr"><span class="ict">لوائح الأقسام</span><span class="pill no" id="impBadge">لم تُستورد</span></div>
+        <div class="ich" id="impHint">ملفات مسار: ملف أو عدة ملفات</div>
+        <div class="icm" id="impCard" hidden><span><span id="icCount"></span><span id="icFiles"></span></span><span id="icDate" dir="ltr"></span></div>
         <input type="file" id="file" accept=".xlsx,.xls,application/*,text/*" multiple hidden>
-        <button class="btn" id="pick" type="button">استيراد لوائح التلاميذ</button>
-        <span class="muted">ملفات مسار (ملف أو عدة ملفات، قسم أو عدة أقسام)</span>
+        <button class="btn wide" id="pick" type="button">استيراد لوائح الأقسام</button>
+        <div class="msg" id="impmsg" role="status"></div>
+        <details class="cls" id="clsBox">
+          <summary><span class="ct" id="clsTitle">الأقسام المستوردة (0)</span><span class="ch">اضغط للعرض ▾</span></summary>
+          <div class="tabs" id="classes" aria-label="الأقسام المستوردة"></div>
+        </details>
       </div>
-      <div class="impcard" id="impCard" hidden>
-        <div class="ic1"><b>✔ تم الاستيراد</b><span id="icCount"></span></div>
-        <div class="ic2"><span class="icf" id="icFiles"></span><span id="icDate" dir="ltr"></span></div>
-      </div>
-      <div class="msg" id="impmsg" role="status" style="margin-top:8px"></div>
-      <details class="cls" id="clsBox">
-        <summary><span class="ct" id="clsTitle">الأقسام المستوردة (0)</span><span class="ch">اضغط للعرض ▾</span></summary>
-        <div class="tabs" id="classes" aria-label="الأقسام المستوردة"></div>
-      </details>
-
-      <div class="tarl" id="tarlBox">
-        <div class="tl-h"><b>مجموعات الدعم (TaRL)</b><span class="badge" id="tBadge"></span></div>
-        <div class="drop" id="tDrop">
-          <input type="file" id="tFile" accept=".xlsx,.xls,application/*,text/*" multiple hidden>
-          <button class="btn" id="tPick" type="button">استيراد مجموعات الدعم</button>
-          <span class="muted">ملف مسار لمجموعات الدعم (ورقة لكل مجموعة)</span>
-        </div>
-        <div class="impcard" id="tCard" hidden>
-          <div class="ic1"><b>✔ تم الاستيراد</b><span id="tCount"></span></div>
-          <div class="ic2"><span class="icf" id="tFiles"></span><span id="tDate" dir="ltr"></span></div>
-        </div>
-        <div class="msg" id="tMsg" role="status" style="margin-top:8px"></div>
+      <div class="icd" id="tDrop">
+        <div class="icr"><span class="ict">مجموعات الدعم (TaRL)</span><span class="pill no" id="tBadge">لم تُستورد</span></div>
+        <div class="ich" id="tHint">ملف مسار: ورقة لكل مجموعة</div>
+        <div class="icm" id="tCard" hidden><span><span id="tCount"></span><span id="tFiles"></span></span><span id="tDate" dir="ltr"></span></div>
+        <input type="file" id="tFile" accept=".xlsx,.xls,application/*,text/*" multiple hidden>
+        <button class="btn wide" id="tPick" type="button">استيراد مجموعات الدعم</button>
+        <div class="msg" id="tMsg" role="status"></div>
         <details class="cls" id="tClsBox">
           <summary><span class="ct" id="tClsTitle">المجموعات المستوردة (0)</span><span class="ch">اضغط للعرض ▾</span></summary>
           <div class="tabs" id="tGroups" aria-label="المجموعات المستوردة"></div>
@@ -287,13 +304,14 @@ table.at td.sg { font-size: 14px; font-weight: 800; }
         <button class="btn ghost" id="wipe" type="button">مسح جميع البيانات</button>
         <span class="msg" id="sMsg" role="status"></span>
       </div>
+      <div class="cpy"><b>Absence</b>© 2026 Mohamed Morjane. All rights reserved.<br>Version 1.4</div>
     </details>
   </section>
 
   <footer class="dev">
-    <svg class="dvi" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 8l-4 4 4 4M16 8l4 4-4 4M13.5 5l-3 14"/></svg>
-    <b>M&amp;M</b>
-    <span class="dvf">EduGesti</span>
+    <svg class="dvi" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5M14 5l-4 14"/></svg>
+    <b>محمد مورجان</b>
+    <span class="dvf" dir="ltr">Mohamed Morjane</span>
   </footer>
 </main>
 
@@ -502,21 +520,25 @@ table.at td.sg { font-size: 14px; font-weight: 800; }
   var pendDel = null, pendTimer = 0;
   function p2(n) { return String(n).padStart(2, "0"); }
   function stamp(at) { var d = new Date(at); return p2(d.getHours()) + ":" + p2(d.getMinutes()) + " " + p2(d.getDate()) + "/" + p2(d.getMonth() + 1) + "/" + d.getFullYear(); }
+  function fitCodes() { document.querySelectorAll("details.cls[open] .cc").forEach(function (e) { e.style.fontSize = ""; if (!e.clientWidth) return; var f = parseFloat(getComputedStyle(e).fontSize) || 13; while (e.scrollWidth > e.clientWidth + 0.5 && f > 9) { f -= 0.5; e.style.fontSize = f + "px"; } }); }
+  window.addEventListener("resize", fitCodes);
+  function nq(n, one, two, few, many) { return n === 1 ? one : n === 2 ? two : (n % 100 >= 3 && n % 100 <= 10) ? n + " " + few : n + " " + many; }
   function renderStatus() {
     var cs = codes(), n = 0; cs.forEach(function (c) { n += st.classes[c].names.length; });
     var b = $("impBadge");
-    b.className = "badge " + (cs.length ? "ok" : "no"); b.textContent = cs.length ? "تم الاستيراد" : "لم يُستورد";
-    $("impCard").hidden = !cs.length;
-    $("icCount").textContent = cs.length + " أقسام · " + n + " تلميذ";
+    b.className = "pill " + (cs.length ? "ok" : "no"); b.textContent = cs.length ? "✔ " + nq(cs.length, "قسم واحد", "قسمان", "أقسام", "قسماً") : "لم تُستورد";
+    $("impCard").hidden = !cs.length; $("impHint").hidden = !!cs.length;
+    $("pick").textContent = cs.length ? "إعادة الاستيراد" : "استيراد لوائح الأقسام"; $("pick").classList.toggle("again", !!cs.length);
+    $("icCount").textContent = n + " تلميذ(ة)";
     var im = st.imp;
     $("icFiles").hidden = !(im && im.files);
-    $("icFiles").textContent = im && im.files ? "ملفات " + im.files : "";
+    $("icFiles").textContent = im && im.files ? " · " + nq(im.files, "ملف واحد", "ملفان", "ملفات", "ملفاً") : "";
     if (im && im.at) { var d = new Date(im.at); $("icDate").textContent = p2(d.getHours()) + ":" + p2(d.getMinutes()) + " " + p2(d.getDate()) + "/" + p2(d.getMonth() + 1) + "/" + d.getFullYear(); }
     else $("icDate").textContent = "";
     $("clsTitle").textContent = "الأقسام المستوردة (" + cs.length + ")";
     $("clsBox").hidden = !cs.length;
   }
-  $("clsBox").addEventListener("toggle", function () { this.querySelector(".ch").textContent = this.open ? "اضغط للإخفاء ▴" : "اضغط للعرض ▾"; });
+  $("clsBox").addEventListener("toggle", function () { this.querySelector(".ch").textContent = this.open ? "اضغط للإخفاء ▴" : "اضغط للعرض ▾"; fitCodes(); });
   function renderClasses() {
     renderStatus();
     var box = $("classes"); box.innerHTML = "";
@@ -537,20 +559,22 @@ table.at td.sg { font-size: 14px; font-weight: 800; }
       };
       t.appendChild(x); box.appendChild(t);
     });
+    fitCodes();
   }
 
   /* ---------- TaRL groups list ---------- */
   var tPend = null, tPendTimer = 0;
-  $("tClsBox").addEventListener("toggle", function () { this.querySelector(".ch").textContent = this.open ? "اضغط للإخفاء ▴" : "اضغط للعرض ▾"; });
+  $("tClsBox").addEventListener("toggle", function () { this.querySelector(".ch").textContent = this.open ? "اضغط للإخفاء ▴" : "اضغط للعرض ▾"; fitCodes(); });
   function renderTarl() {
     var gs = tcodes(), n = 0; gs.forEach(function (c) { n += st.tarl[c].names.length; });
     var b = $("tBadge");
-    b.className = "badge " + (gs.length ? "ok" : "no"); b.textContent = gs.length ? "تم الاستيراد" : "لم يُستورد";
-    $("tCard").hidden = !gs.length;
-    $("tCount").textContent = gs.length + " مجموعات · " + n + " تلميذ";
+    b.className = "pill " + (gs.length ? "ok" : "no"); b.textContent = gs.length ? "✔ " + nq(gs.length, "مجموعة واحدة", "مجموعتان", "مجموعات", "مجموعة") : "لم تُستورد";
+    $("tCard").hidden = !gs.length; $("tHint").hidden = !!gs.length;
+    $("tPick").textContent = gs.length ? "إعادة الاستيراد" : "استيراد مجموعات الدعم"; $("tPick").classList.toggle("again", !!gs.length);
+    $("tCount").textContent = n + " تلميذ(ة)";
     var im = st.timp;
     $("tFiles").hidden = !(im && im.files);
-    $("tFiles").textContent = im && im.files ? "ملفات " + im.files : "";
+    $("tFiles").textContent = im && im.files ? " · " + nq(im.files, "ملف واحد", "ملفان", "ملفات", "ملفاً") : "";
     $("tDate").textContent = im && im.at ? stamp(im.at) : "";
     $("tClsTitle").textContent = "المجموعات المستوردة (" + gs.length + ")";
     $("tClsBox").hidden = !gs.length;
@@ -561,7 +585,7 @@ table.at td.sg { font-size: 14px; font-weight: 800; }
       var l = lvlOf(c);
       if (l !== lastL) { var h = document.createElement("div"); h.className = "lvl"; h.textContent = lvlName(l); box.appendChild(h); lastL = l; }
       var t = document.createElement("div"); t.className = "ctab";
-      t.innerHTML = '<div class="ct-main"><span class="cc">' + esc(c) + "</span><small>" + st.tarl[c].names.length + " تلميذ(ة)</small></div>";
+      t.innerHTML = '<div class="ct-main" title="' + esc(c) + '"><span class="cc">' + esc(String(c).replace(/^TARL-/i, "")) + "</span><small>" + st.tarl[c].names.length + " تلميذ(ة)</small></div>";
       var x = document.createElement("button"); x.type = "button"; x.className = "ct-x"; x.setAttribute("aria-label", "حذف المجموعة " + c);
       x.textContent = tPend === c ? "تأكيد الحذف" : "×";
       if (tPend === c) x.classList.add("pend");
@@ -573,6 +597,7 @@ table.at td.sg { font-size: 14px; font-weight: 800; }
       };
       t.appendChild(x); box.appendChild(t);
     });
+    fitCodes();
     syncSrc();
   }
 
@@ -806,6 +831,12 @@ table.at td.sg { font-size: 14px; font-weight: 800; }
 </script>
 <script>
 if ("serviceWorker" in navigator && location.protocol === "https:") { window.addEventListener("load", function () { navigator.serviceWorker.register("sw.js").catch(function () {}); }); }
+</script>
+<script>
+/* v4: مدّ «ورقة الغياب» بالكشيدة ليساوي عرض Absence */
+(function(){var C=['ورقة الغياب','ورقـة الغيـاب','ورقـة الغـيـاب','ورقــة الغيــاب','ورقــة الغــيــاب','ورقـــة الغيـــاب','ورقـــة الغـــيـــاب','ورقــــة الغيــــاب','ورقــــة الغــــيــــاب'];
+function fitBs(){try{var t=document.querySelector('.topbar .bt'),s=document.getElementById('bsx');if(!t||!s)return;var r=document.createRange();r.selectNodeContents(t);var W=r.getBoundingClientRect().width;if(!W)return;s.style.wordSpacing='0px';var best=C[0];for(var i=0;i<C.length;i++){s.textContent=C[i];if(s.getBoundingClientRect().width<=W+.5)best=C[i];else break}s.textContent=best;var g=W-s.getBoundingClientRect().width;s.style.wordSpacing=(g>0?g:0)+'px'}catch(e){}}
+fitBs();addEventListener('load',fitBs);addEventListener('resize',fitBs);try{document.fonts&&document.fonts.ready.then(fitBs)}catch(e){}})();
 </script>
 </body>
 </html>
